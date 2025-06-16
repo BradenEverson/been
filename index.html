@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US National Parks Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #2E8B57;
+            margin-bottom: 10px;
+        }
+        #map-container {
+            height: 600px;
+            width: 100%;
+            max-width: 1000px;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Where Have Rowan and Braden Been <3</h1>
+    
+    <div id="map-container"></div>
+    
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map-container').setView([39.8283, -98.5795], 4);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        
+        const nationalParks = [
+            {name: "The Badlands!", lat: 43.8554, lng: -102.3397, extra: "./places/badlands.html"},
+            {name: "Custer State Park", lat: 43.7325, lng: -103.4133, extra: "./places/custer.html"},
+            {name: "Mount Rushmore", lat: 43.8803, lng: -103.4538, extra: "./places/rushmore.html"},
+            {name: "Wall Drug", lat: 43.9929, lng: -102.2415, extra: "./places/walldrug.html"},
+        ];
+
+        nationalParks.forEach(park => {
+            const marker = L.circleMarker([park.lat, park.lng], {
+                className: 'badlands-marker'
+            }).addTo(map);
+
+            if (park.extra) {
+                marker.on('click', function() {
+                    window.location.href = `/${park.extra}`;
+                });
+            }
+
+            marker.bindPopup(`
+                <b>${park.name}</b><br>
+                `);
+        });
+    </script>
+</body>
+</html>
